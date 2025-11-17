@@ -135,18 +135,18 @@ def fetch_url(url, delay=None, max_retries=3):
             except:
                 pass  # Logging not set up yet
             r = requests.get(url, headers=headers, timeout=REQUESTS_TIMEOUT, allow_redirects=True, verify=True)
-        
-        # Check content type to avoid processing binary files
-        content_type = r.headers.get('content-type', '').lower()
-        if 'EXCLUDED_CONTENT_TYPES' in globals():
-            for excluded in EXCLUDED_CONTENT_TYPES:
-                if content_type.startswith(excluded):
-                    try:
-                        logging.debug(f"Skipping {url} due to content type: {content_type}")
-                    except:
-                        pass
-                    return None, None, {"error": f"Excluded content type: {content_type}"}
-        
+            
+            # Check content type to avoid processing binary files
+            content_type = r.headers.get('content-type', '').lower()
+            if 'EXCLUDED_CONTENT_TYPES' in globals():
+                for excluded in EXCLUDED_CONTENT_TYPES:
+                    if content_type.startswith(excluded):
+                        try:
+                            logging.debug(f"Skipping {url} due to content type: {content_type}")
+                        except:
+                            pass
+                        return None, None, {"error": f"Excluded content type: {content_type}"}
+            
             return r.status_code, r.text, dict(r.headers or {})
         except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
             if attempt < max_retries - 1:
