@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  secret-scanner:
+    build: .
+    image: secret-scanner:latest
+    container_name: secret-scanner
+    volumes:
+      - ./Results:/app/Results
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - scanner-network
+    restart: unless-stopped
+    # Override default command for interactive use
+    # command: tail -f /dev/null
+
+  # Web interface (future enhancement)
+  scanner-web:
+    build: 
+      context: .
+      dockerfile: Dockerfile.web
+    image: secret-scanner-web:latest
+    container_name: secret-scanner-web
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Results:/app/Results:ro
+    environment:
+      - FLASK_ENV=production
+    networks:
+      - scanner-network
+    restart: unless-stopped
+    depends_on:
+      - secret-scanner
+    profiles:
+      - web
+
+  # Redis for caching (future enhancement)
+  redis:
+    image: redis:7-alpine
+    container_name: scanner-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - scanner-network
+    restart: unless-stopped
+    profiles:
+      - cache
+
+networks:
+  scanner-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+
+# Usage examples:
+# docker-compose up secret-scanner
+# docker-compose run --rm secret-scanner https://example.com
+# docker-compose --profile web up  # Start with web interface
+# docker-compose --profile cache up  # Start with caching

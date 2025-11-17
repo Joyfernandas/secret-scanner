@@ -1,0 +1,207 @@
+stages:
+  - test
+  - security
+  - build
+  - deploy
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip/
+    - venv/
+
+before_script:
+  - python --version
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+  - pip install --upgrade pip
+
+# Test stage
+test_python_3_8:
+  stage: test
+  image: python:3.8
+  script:
+    - pip install -r requirements.txt
+    - python test_installation.py
+    - python secrets_scanner.py --help
+  artifacts:
+    reports:
+      junit: test-results.xml
+    expire_in: 1 week
+
+test_python_3_9:
+  stage: test
+  image: python:3.9
+  script:
+    - pip install -r requirements.txt
+    - python test_installation.py
+    - python secrets_scanner.py --help
+
+test_python_3_10:
+  stage: test
+  image: python:3.10
+  script:
+    - pip install -r requirements.txt
+    - python test_installation.py
+    - python secrets_scanner.py --help
+
+test_python_3_11:
+  stage: test
+  image: python:3.11
+  script:
+    - pip install -r requirements.txt
+    - python test_installation.py
+    - python secrets_scanner.py --help
+
+# Test with Playwright
+test_with_playwright:
+  stage: test
+  image: python:3.9
+  script:
+    - pip install -r requirements.txt
+    - pip install playwright
+    - playwright install chromium
+    - python test_installation.py
+    - echo "Testing basic scan functionality..."
+    - timeout 30 python secrets_scanner.py https://httpbin.org/html --depth 1 --no-playwright || true
+  artifacts:
+    paths:
+      - Results/
+    expire_in: 1 day
+
+# Security scanning
+security_bandit:
+  stage: security
+  image: python:3.9
+  script:
+    - pip install bandit[toml]
+    - bandit -r . -f json -o bandit-report.json -ll || true
+    - bandit -r . -f txt -o bandit-report.txt -ll || true
+  artifacts:
+    reports:
+      security: bandit-report.json
+    paths:
+      - bandit-report.json
+      - bandit-report.txt
+    expire_in: 1 week
+  allow_failure: true
+
+security_safety:
+  stage: security
+  image: python:3.9
+  script:
+    - pip install -r requirements.txt
+    - pip install safety
+    - safety check --json --output safety-report.json || true
+    - safety check --output safety-report.txt || true
+  artifacts:
+    paths:
+      - safety-report.json
+      - safety-report.txt
+    expire_in: 1 week
+  allow_failure: true
+
+# Code quality
+code_quality:
+  stage: security
+  image: python:3.9
+  script:
+    - pip install flake8 pylint
+    - flake8 secrets_scanner.py --max-line-length=120 --ignore=E501,W503 --output-file=flake8-report.txt || true
+    - pylint secrets_scanner.py --output-format=json > pylint-report.json || true
+  artifacts:
+    paths:
+      - flake8-report.txt
+      - pylint-report.json
+    expire_in: 1 week
+  allow_failure: true
+
+# Build Docker image
+build_docker:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+  only:
+    - main
+    - develop
+
+# Integration tests
+integration_test:
+  stage: test
+  image: python:3.9
+  script:
+    - pip install -r requirements.txt
+    - echo "Running integration tests..."
+    - python secrets_scanner.py https://httpbin.org/html --depth 1 --output test_results.json
+    - python -c "import json; data=json.load(open('test_results.json')); print(f'Scan completed: {data.get(\"scan_info\", {}).get(\"target_url\", \"unknown\")}')"
+  artifacts:
+    paths:
+      - test_results.json
+    expire_in: 1 day
+
+# Performance test
+performance_test:
+  stage: test
+  image: python:3.9
+  script:
+    - pip install -r requirements.txt
+    - echo "Running performance test..."
+    - time python secrets_scanner.py https://httpbin.org/html --depth 2 --output perf_results.json
+    - ls -la perf_results.json
+  artifacts:
+    paths:
+      - perf_results.json
+    expire_in: 1 day
+  allow_failure: true
+
+# Deploy documentation
+pages:
+  stage: deploy
+  image: python:3.9
+  script:
+    - pip install -r requirements.txt
+    - mkdir public
+    - cp README.md public/
+    - cp SECURITY.md public/
+    - cp CONTRIBUTING.md public/
+    - cp enhanced_example_output.json public/
+    - echo "Documentation deployed to GitLab Pages"
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+
+# Release job
+release:
+  stage: deploy
+  image: python:3.9
+  script:
+    - pip install twine build
+    - python -m build
+    - echo "Package built successfully"
+  artifacts:
+    paths:
+      - dist/
+  only:
+    - tags
+  when: manual
+
+# Cleanup job
+cleanup:
+  stage: deploy
+  script:
+    - echo "Cleaning up old artifacts..."
+    - find . -name "*.pyc" -delete
+    - find . -name "__pycache__" -type d -exec rm -rf {} + || true
+  when: always
