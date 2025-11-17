@@ -1,6 +1,6 @@
 # 🔍 Secret Scanner
 
-[![GitLab CI](https://gitlab.com/yourusername/secret-scanner/badges/main/pipeline.svg)](https://gitlab.com/yourusername/secret-scanner/-/pipelines)
+[![GitLab CI](https://gitlab.com/Joyfernandas/secret-scanner/badges/main/pipeline.svg)](https://gitlab.com/Joyfernandas/secret-scanner/-/pipelines)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 
