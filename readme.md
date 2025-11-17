@@ -2,7 +2,7 @@
 
 [![GitLab CI](https://gitlab.com/Joyfernandas/secret-scanner/badges/main/pipeline.svg)](https://gitlab.com/Joyfernandas/secret-scanner/-/pipelines)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
 A comprehensive web application security scanner that detects exposed secrets, API keys, tokens, and credentials in web applications. Scan websites directly from your browser using GitLab Codespaces!
 
