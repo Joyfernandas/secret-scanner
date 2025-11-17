@@ -36,7 +36,7 @@ try:
     from config import *
 except ImportError:
     # Fallback values if config.py is not available
-    DEFAULT_TIMEOUT = 12
+    DEFAULT_TIMEOUT = 30
     DEFAULT_USER_AGENT = "Mozilla/5.0 (SecretScanner/1.0)"
     REQUEST_DELAY = 0.5
     MAX_CRAWL_PAGES = 100
@@ -49,7 +49,7 @@ try:
 except Exception:
     PLAYWRIGHT_AVAILABLE = False
 
-REQUESTS_TIMEOUT = DEFAULT_TIMEOUT if 'DEFAULT_TIMEOUT' in globals() else 12
+REQUESTS_TIMEOUT = DEFAULT_TIMEOUT if 'DEFAULT_TIMEOUT' in globals() else 30
 
 # Comprehensive patterns for known keys/tokens
 PATTERNS = {
@@ -110,30 +110,31 @@ def setup_logging(verbose=False):
     )
     return logging.getLogger(__name__)
 
-def fetch_url(url, delay=None):
-    """Fetch URL content with proper error handling and rate limiting."""
+def fetch_url(url, delay=None, max_retries=3):
+    """Fetch URL content with proper error handling, rate limiting, and retry logic."""
     if delay is None:
         delay = REQUEST_DELAY if 'REQUEST_DELAY' in globals() else 0.5
     
     # Rate limiting
     time.sleep(delay)
     
-    try:
-        user_agent = DEFAULT_USER_AGENT if 'DEFAULT_USER_AGENT' in globals() else "Mozilla/5.0 (SecretScanner/1.0)"
-        headers = {
-            "User-Agent": user_agent,
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-            "Accept-Language": "en-US,en;q=0.5",
-            "Accept-Encoding": "gzip, deflate",
-            "Connection": "keep-alive",
-            "Upgrade-Insecure-Requests": "1"
-        }
-        
+    user_agent = DEFAULT_USER_AGENT if 'DEFAULT_USER_AGENT' in globals() else "Mozilla/5.0 (SecretScanner/1.0)"
+    headers = {
+        "User-Agent": user_agent,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate",
+        "Connection": "keep-alive",
+        "Upgrade-Insecure-Requests": "1"
+    }
+    
+    for attempt in range(max_retries):
         try:
-            logging.debug(f"Fetching URL: {url}")
-        except:
-            pass  # Logging not set up yet
-        r = requests.get(url, headers=headers, timeout=REQUESTS_TIMEOUT, allow_redirects=True, verify=True)
+            try:
+                logging.debug(f"Fetching URL: {url} (attempt {attempt + 1}/{max_retries})")
+            except:
+                pass  # Logging not set up yet
+            r = requests.get(url, headers=headers, timeout=REQUESTS_TIMEOUT, allow_redirects=True, verify=True)
         
         # Check content type to avoid processing binary files
         content_type = r.headers.get('content-type', '').lower()
@@ -146,7 +147,17 @@ def fetch_url(url, delay=None):
                         pass
                     return None, None, {"error": f"Excluded content type: {content_type}"}
         
-        return r.status_code, r.text, dict(r.headers or {})
+            return r.status_code, r.text, dict(r.headers or {})
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+            if attempt < max_retries - 1:
+                wait_time = (attempt + 1) * 2
+                try:
+                    logging.warning(f"Retry {attempt + 1}/{max_retries} for {url} after {wait_time}s")
+                except:
+                    pass
+                time.sleep(wait_time)
+                continue
+            raise
     except requests.exceptions.SSLError as e:
         try:
             logging.warning(f"SSL Error for {url}: {str(e)}")
