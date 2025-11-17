@@ -9,7 +9,7 @@ A comprehensive web application security scanner that detects exposed secrets, A
 ## 🚀 Quick Start with GitLab Codespaces
 
 ### Option 1: One-Click Launch
-[![Open in GitLab Codespaces](https://img.shields.io/badge/GitLab-Codespaces-orange?logo=gitlab)](https://gitlab.com/yourusername/secret-scanner/-/tree/main?vscode=true)
+[![Open in GitLab Codespaces](https://img.shields.io/badge/GitLab-Codespaces-orange?logo=gitlab)](https://gitlab.com/Joyfernandas/secret-scanner/-/tree/main?vscode=true)
 
 1. Click the "Open in GitLab Codespaces" button above
 2. Wait for the environment to load (2-3 minutes)
@@ -63,7 +63,7 @@ A comprehensive web application security scanner that detects exposed secrets, A
 ### Local Installation
 ```bash
 # Clone the repository
-git clone https://gitlab.com/yourusername/secret-scanner.git
+git clone https://gitlab.com/Joyfernandas/secret-scanner.git
 cd secret-scanner
 
 # Create virtual environment (recommended)
@@ -281,7 +281,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 ### Development Setup
 ```bash
 # Clone and setup
-git clone https://gitlab.com/yourusername/secret-scanner.git
+git clone https://gitlab.com/Joyfernandas/secret-scanner.git
 cd secret-scanner
 
 # Setup development environment
@@ -354,10 +354,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 🐛 **Bug Reports**: [GitLab Issues](https://gitlab.com/yourusername/secret-scanner/-/issues)
-- 💡 **Feature Requests**: [GitLab Issues](https://gitlab.com/yourusername/secret-scanner/-/issues)
+- 🐛 **Bug Reports**: [GitLab Issues](https://gitlab.com/Joyfernandas/secret-scanner/-/issues)
+- 💡 **Feature Requests**: [GitLab Issues](https://gitlab.com/Joyfernandas/secret-scanner/-/issues)
 - 🔒 **Security Issues**: See [SECURITY.md](SECURITY.md)
-- 💬 **Discussions**: [GitLab Discussions](https://gitlab.com/yourusername/secret-scanner/-/issues)
+- 💬 **Discussions**: [GitLab Discussions](https://gitlab.com/Joyfernandas/secret-scanner/-/issues)
 
 ---
 
