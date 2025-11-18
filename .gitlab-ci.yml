@@ -27,6 +27,10 @@ test_python_3_8:
     - pip install -r requirements.txt
     - python test_installation.py
     - python secrets_scanner.py --help
+  artifacts:
+    reports:
+      junit: test-results.xml
+    expire_in: 1 week
 
 test_python_3_9:
   stage: test
@@ -55,14 +59,14 @@ test_python_3_11:
 # Test with Playwright
 test_with_playwright:
   stage: test
-  image: python:3.10
+  image: python:3.9
   script:
     - pip install -r requirements.txt
     - pip install playwright
     - playwright install chromium
     - python test_installation.py
     - echo "Testing basic scan functionality..."
-    - timeout 60 python secrets_scanner.py https://httpbin.org/html --depth 1 --no-playwright || true
+    - timeout 30 python secrets_scanner.py https://httpbin.org/html --depth 1 --no-playwright || true
   artifacts:
     paths:
       - Results/
@@ -134,27 +138,26 @@ build_docker:
 # Integration tests
 integration_test:
   stage: test
-  image: python:3.10
+  image: python:3.9
   script:
     - pip install -r requirements.txt
     - echo "Running integration tests..."
-    - timeout 60 python secrets_scanner.py https://httpbin.org/html --depth 1 --output test_results.json || true
-    - test -f test_results.json && python -c "import json; data=json.load(open('test_results.json')); print(f'Scan completed: {data.get(\"scan_info\", {}).get(\"target_url\", \"unknown\")}')"
+    - python secrets_scanner.py https://httpbin.org/html --depth 1 --output test_results.json
+    - python -c "import json; data=json.load(open('test_results.json')); print(f'Scan completed: {data.get(\"scan_info\", {}).get(\"target_url\", \"unknown\")}')"
   artifacts:
     paths:
       - test_results.json
     expire_in: 1 day
-  allow_failure: true
 
 # Performance test
 performance_test:
   stage: test
-  image: python:3.10
+  image: python:3.9
   script:
     - pip install -r requirements.txt
     - echo "Running performance test..."
-    - timeout 120 python secrets_scanner.py https://httpbin.org/html --depth 2 --output perf_results.json || true
-    - test -f perf_results.json && ls -la perf_results.json
+    - time python secrets_scanner.py https://httpbin.org/html --depth 2 --output perf_results.json
+    - ls -la perf_results.json
   artifacts:
     paths:
       - perf_results.json
