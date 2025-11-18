@@ -20,16 +20,16 @@ if requirements_path.exists():
 setup(
     name="secret-scanner",
     version="1.0.0",
-    author="Secret Scanner Team",
-    author_email="team@secret-scanner.dev",
+    author="Joyfernandas",
+    author_email="cyphersilhouette@gmail.com",
     description="A comprehensive web application security scanner for detecting exposed secrets and credentials",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://gitlab.com/yourusername/secret-scanner",
+    url="https://github.com/Joyfernandas/secret-scanner",
     project_urls={
-        "Bug Reports": "https://gitlab.com/yourusername/secret-scanner/-/issues",
-        "Source": "https://gitlab.com/yourusername/secret-scanner",
-        "Documentation": "https://gitlab.com/yourusername/secret-scanner/-/blob/main/README.md",
+        "Bug Reports": "https://github.com/Joyfernandas/secret-scanner/issues",
+        "Source": "https://github.com/Joyfernandas/secret-scanner",
+        "Documentation": "https://github.com/Joyfernandas/secret-scanner/blob/main/README.md",
     },
     package_dir={"": "src"},
     packages=find_packages(where="src"),
@@ -52,7 +52,7 @@ setup(
         "Topic :: System :: Systems Administration",
         "Environment :: Console",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     install_requires=requirements,
     extras_require={
         "dev": [

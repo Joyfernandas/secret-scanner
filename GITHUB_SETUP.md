@@ -27,8 +27,8 @@ git add .
 # Commit
 git commit -m "Initial commit: Professional Secret Scanner v1.0.0"
 
-# Add remote (replace YOUR_USERNAME)
-git remote add origin https://github.com/YOUR_USERNAME/secret-scanner.git
+# Add remote
+git remote add origin https://github.com/Joyfernandas/secret-scanner.git
 
 # Push to GitHub
 git branch -M main
@@ -57,7 +57,7 @@ The `.github/workflows/ci.yml` file is already configured for GitHub Actions.
 
 ```bash
 # Clone from GitHub
-git clone https://github.com/YOUR_USERNAME/secret-scanner.git
+git clone https://github.com/Joyfernandas/secret-scanner.git
 cd secret-scanner
 
 # Install

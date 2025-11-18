@@ -23,7 +23,7 @@ If you discover a security vulnerability in Secret Scanner itself, please report
 ### For Security Issues in Secret Scanner
 
 1. **Do NOT** create a public GitHub issue
-2. Email the maintainers directly at: [security@example.com]
+2. Email the maintainers directly at: cyphersilhouette@gmail.com
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce
@@ -100,7 +100,7 @@ Security updates will be communicated through:
 ## Contact
 
 For security-related questions or concerns:
-- Email: [security@example.com]
+- Email: cyphersilhouette@gmail.com
 - GitHub: Create a private security advisory
 
 Thank you for using Secret Scanner responsibly!

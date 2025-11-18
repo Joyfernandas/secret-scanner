@@ -31,7 +31,7 @@ Thank you for your interest in contributing to Secret Scanner! This document pro
 
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/secret-scanner.git
+git clone https://github.com/Joyfernandas/secret-scanner.git
 cd secret-scanner
 
 # Create virtual environment
