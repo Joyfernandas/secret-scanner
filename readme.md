@@ -1,17 +1,17 @@
   # 🔍 Secret Scanner
 
-  [![GitLab CI](https://gitlab.com/Joyfernandas/secret-scanner/badges/main/pipeline.svg)](https://gitlab.com/Joyfernandas/secret-scanner/-/pipelines)
+  [![GitHub CI](https://github.com/Joyfernandas/secret-scanner/workflows/CI/badge.svg)](https://github.com/Joyfernandas/secret-scanner/actions)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-  [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+  [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-  A comprehensive web application security scanner that detects exposed secrets, API keys, tokens, and credentials in web applications. Scan websites directly from your browser using GitLab Codespaces!
+  A comprehensive web application security scanner that detects exposed secrets, API keys, tokens, and credentials in web applications. Scan websites directly from your browser using GitHub Codespaces!
 
-  ## 🚀 Quick Start with GitLab Codespaces
+  ## 🚀 Quick Start with GitHub Codespaces
 
   ### Option 1: One-Click Launch
-  [![Open in GitLab Codespaces](https://img.shields.io/badge/GitLab-Codespaces-orange?logo=gitlab)](https://gitlab.com/Joyfernandas/secret-scanner/-/tree/main?vscode=true)
+  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/Joyfernandas/secret-scanner/codespaces)
 
-  1. Click the "Open in GitLab Codespaces" button above
+  1. Click the "Open in GitHub Codespaces" button above
   2. Wait for the environment to load (2-3 minutes)
   3. Open the integrated terminal
   4. Run your first scan:
@@ -20,8 +20,8 @@
     ```
 
   ### Option 2: Manual Setup in Codespaces
-  1. Go to your GitLab project
-  2. Click **Web IDE** → **VS Code for the Web**
+  1. Go to your GitHub repository
+  2. Click **Code** → **Codespaces** → **Create codespace on main**
   3. Open terminal and run:
     ```bash
     # Install dependencies
@@ -63,7 +63,7 @@
   ### Local Installation
   ```bash
   # Clone the repository
-  git clone https://gitlab.com/Joyfernandas/secret-scanner.git
+  git clone https://github.com/Joyfernandas/secret-scanner.git
   cd secret-scanner
 
   # Create virtual environment (recommended)
@@ -188,42 +188,39 @@
   - **📍 Location**: File, line, and column information
   - **⏰ Timestamp**: When the finding was detected
 
-  ## 🛠️ GitLab Integration
+  ## 🛠️ GitHub Integration
 
-  ### GitLab CI/CD Pipeline
-  The project includes a comprehensive `.gitlab-ci.yml` for automated testing:
+  ### GitHub Actions CI/CD Pipeline
+  The project includes a comprehensive `.github/workflows/ci.yml` for automated testing:
 
   ```yaml
-  stages:
-    - test
-    - security
-    - deploy
+  name: CI
+  on:
+    push:
+      branches: [ main, develop ]
+    pull_request:
+      branches: [ main ]
 
-  test:
-    stage: test
-    image: python:3.9
-    script:
-      - pip install -r requirements.txt
-      - python test_installation.py
-      - python secrets_scanner.py --help
-
-  security_scan:
-    stage: security
-    image: python:3.9
-    script:
-      - pip install bandit safety
-      - bandit -r . -f json -o bandit-report.json || true
-      - safety check --json --output safety-report.json || true
-    artifacts:
-      reports:
-        security: bandit-report.json
-      paths:
-        - bandit-report.json
-        - safety-report.json
-      expire_in: 1 week
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          python-version: [3.8, 3.9, '3.10', '3.11']
+      steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          python test_installation.py
+          python secrets_scanner.py --help
   ```
 
-  ### GitLab Codespaces Configuration
+  ### GitHub Codespaces Configuration
   The repository includes `.devcontainer/devcontainer.json` for seamless Codespaces integration:
 
   ```json
@@ -281,7 +278,7 @@
   ### Development Setup
   ```bash
   # Clone and setup
-  git clone https://gitlab.com/Joyfernandas/secret-scanner.git
+  git clone https://github.com/Joyfernandas/secret-scanner.git
   cd secret-scanner
 
   # Setup development environment
@@ -354,10 +351,10 @@
 
   ## 📞 Support
 
-  - 🐛 **Bug Reports**: [GitLab Issues](https://gitlab.com/Joyfernandas/secret-scanner/-/issues)
-  - 💡 **Feature Requests**: [GitLab Issues](https://gitlab.com/Joyfernandas/secret-scanner/-/issues)
+  - 🐛 **Bug Reports**: [GitHub Issues](https://github.com/Joyfernandas/secret-scanner/issues)
+  - 💡 **Feature Requests**: [GitHub Issues](https://github.com/Joyfernandas/secret-scanner/issues)
   - 🔒 **Security Issues**: See [SECURITY.md](SECURITY.md)
-  - 💬 **Discussions**: [GitLab Discussions](https://gitlab.com/Joyfernandas/secret-scanner/-/issues)
+  - 💬 **Discussions**: [GitHub Discussions](https://github.com/Joyfernandas/secret-scanner/discussions)
 
   ---
 

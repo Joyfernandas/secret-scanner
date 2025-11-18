@@ -67,7 +67,7 @@ PATTERNS = {
     # Cloud provider keys
     "google_api_key": re.compile(r"AIza[0-9A-Za-z\-_]{35}"),
     "google_oauth_key": re.compile(r"[0-9]+-[0-9A-Za-z_]{32}\.apps\.googleusercontent\.com"),
-    "azure_client_secret": re.compile(r"\b[A-Za-z0-9~._-]{34}\b"),
+    "azure_client_secret": re.compile(r"(?i)(azure|client.?secret|client.?id)[\s:='\"]([A-Za-z0-9~._-]{34})"),
     
     # Payment processors
     "stripe_secret": re.compile(r"\b(sk_live|sk_test)_[0-9a-zA-Z]{24,}\b"),
@@ -201,6 +201,18 @@ def is_suspicious_token(s: str, min_len: int = 40) -> bool:
     ss = s.strip("\"'` ")
     if looks_like_i18n_key(ss):
         return False
+    
+    # Exclude common false positives
+    false_positive_patterns = [
+        r'^[a-z0-9-]+(/[a-z0-9-]+)+$',  # URL paths
+        r'^[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}$',  # GUIDs/UUIDs
+        r'^clsid:',  # COM CLSIDs
+        r'\.(com|org|net|io|dev)/',  # Domain paths
+    ]
+    for pattern in false_positive_patterns:
+        if re.search(pattern, ss, re.I):
+            return False
+    
     # require digits or base64 characters, plus letters, or mixed-case + digits
     if (re.search(r"[0-9]", ss) or re.search(r"[+/=]", ss)) and re.search(r"[A-Za-z]", ss):
         return True
