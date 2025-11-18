@@ -4,38 +4,33 @@ about: Create a report to help us improve
 title: '[BUG] '
 labels: bug
 assignees: ''
-
 ---
 
-**Describe the bug**
+## Bug Description
 A clear and concise description of what the bug is.
 
-**To Reproduce**
+## To Reproduce
 Steps to reproduce the behavior:
 1. Run command '...'
-2. With URL '...'
+2. Scan URL '...'
 3. See error
 
-**Expected behavior**
+## Expected Behavior
 A clear and concise description of what you expected to happen.
 
-**Error output**
-If applicable, add the error message or stack trace.
+## Actual Behavior
+What actually happened.
 
-**Environment (please complete the following information):**
- - OS: [e.g. Windows 10, Ubuntu 20.04]
- - Python version: [e.g. 3.9.0]
- - Secret Scanner version: [e.g. 1.0.0]
- - Playwright installed: [Yes/No]
+## Environment
+- OS: [e.g. Windows 10, Ubuntu 22.04]
+- Python Version: [e.g. 3.9.7]
+- Secret Scanner Version: [e.g. 1.0.0]
+- Playwright Installed: [Yes/No]
 
-**Command used**
-The exact command you ran:
-```bash
-python secrets_scanner.py [your command here]
+## Error Output
+```
+Paste error output here
 ```
 
-**Additional context**
+## Additional Context
 Add any other context about the problem here.
-
-**Security Note**
-Please do not include any actual secrets, credentials, or sensitive URLs in this report.

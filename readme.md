@@ -1,10 +1,35 @@
   # 🔍 Secret Scanner
 
+  <div align="center">
+
   [![GitHub CI](https://github.com/Joyfernandas/secret-scanner/workflows/CI/badge.svg)](https://github.com/Joyfernandas/secret-scanner/actions)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+  [![GitHub stars](https://img.shields.io/github/stars/Joyfernandas/secret-scanner?style=social)](https://github.com/Joyfernandas/secret-scanner/stargazers)
+  [![GitHub forks](https://img.shields.io/github/forks/Joyfernandas/secret-scanner?style=social)](https://github.com/Joyfernandas/secret-scanner/network/members)
+  [![GitHub issues](https://img.shields.io/github/issues/Joyfernandas/secret-scanner)](https://github.com/Joyfernandas/secret-scanner/issues)
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Joyfernandas/secret-scanner/graphs/commit-activity)
+  [![Made with Python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+  [![Security Scanner](https://img.shields.io/badge/Security-Scanner-red.svg)](https://github.com/Joyfernandas/secret-scanner)
 
-  A comprehensive web application security scanner that detects exposed secrets, API keys, tokens, and credentials in web applications. Scan websites directly from your browser using GitHub Codespaces!
+  </div>
+
+  ---
+
+  <p align="center">
+    <strong>A comprehensive web application security scanner that detects exposed secrets, API keys, tokens, and credentials in web applications.</strong>
+  </p>
+
+  <p align="center">
+    <a href="#-features">Features</a> •
+    <a href="#-installation">Installation</a> •
+    <a href="#-usage-examples">Usage</a> •
+    <a href="#-contributing">Contributing</a> •
+    <a href="#-support">Support</a>
+  </p>
+
+  ---
 
   ## 🚀 Quick Start with GitHub Codespaces
 
@@ -361,3 +386,65 @@
   **⚠️ Disclaimer**: This tool is provided for educational and authorized testing purposes only. Users are responsible for ensuring they have proper authorization before scanning any systems. The authors are not responsible for any misuse of this tool.
 
   **🌟 Star this repository if you find it useful!**
+
+  ---
+
+  ## 🏷️ GitHub Topics
+
+  When you push this to GitHub, add these topics to increase visibility:
+
+  ```
+  security security-tools security-scanner secrets-detection api-keys 
+  credentials-scanner vulnerability-scanner penetration-testing 
+  web-security cybersecurity devsecops secrets-management 
+  python python3 playwright beautifulsoup owasp 
+  jwt-tokens aws-security github-actions ci-cd automation
+  ```
+
+  ## 🚀 How to Add Topics on GitHub
+
+  1. Go to your repository on GitHub
+  2. Click the ⚙️ gear icon next to "About"
+  3. Add topics from the list above
+  4. Add a description: "Web application security scanner for detecting exposed secrets, API keys, and credentials"
+  5. Add website: Your documentation URL (if any)
+  6. Save changes
+
+  ## 📣 Promote Your Project
+
+  ### Share on Social Media
+  - **Twitter/X**: "🔍 Just released Secret Scanner - an open-source tool to detect exposed secrets in web apps! #CyberSecurity #DevSecOps #OpenSource"
+  - **LinkedIn**: Share with security and developer communities
+  - **Reddit**: Post in r/netsec, r/cybersecurity, r/Python
+  - **Dev.to**: Write a blog post about the tool
+  - **Hashnode**: Create a technical article
+
+  ### Submit to Directories
+  - [Awesome Security](https://github.com/sbilly/awesome-security)
+  - [Awesome Python Security](https://github.com/guardrailsio/awesome-python-security)
+  - [OWASP Projects](https://owasp.org/)
+  - [Product Hunt](https://www.producthunt.com/)
+  - [Hacker News](https://news.ycombinator.com/)
+
+  ### Create Content
+  - 📝 Write a blog post about how it works
+  - 🎥 Create a demo video on YouTube
+  - 📊 Share scan results (anonymized)
+  - 💡 Write tutorials and use cases
+
+  ### Engage with Community
+  - Respond to issues quickly
+  - Welcome first-time contributors
+  - Add "good first issue" labels
+  - Create a roadmap in GitHub Projects
+  - Host discussions in GitHub Discussions
+
+  ---
+
+  <div align="center">
+
+  **Made with ❤️ by [Joyfernandas](https://github.com/Joyfernandas)**
+
+  If this project helped you, please consider giving it a ⭐!
+
+  </div>
